@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { usePathname } from "next/navigation";
 import "./globals.css";
-import { AuthProvider, useAuth } from "@/components/providers/AuthProvider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ToastProvider } from "@/components/providers/ToastProvider";
 import { Header } from "@/components/navigation/Header";
 import { Sidebar } from "@/components/navigation/Sidebar";
@@ -11,15 +10,7 @@ import { BottomNav } from "@/components/navigation/BottomNav";
 import { VaultlyAiChatDrawer } from "@/components/ai/VaultlyAiChatDrawer";
 
 function MainAppLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const { user } = useAuth();
   const [isAiDrawerOpen, setIsAiDrawerOpen] = useState(false);
-
-  const isAuthPage = pathname === "/login" || pathname === "/signup";
-
-  if (isAuthPage || !user) {
-    return <main className="min-h-screen bg-[#faf9f6]">{children}</main>;
-  }
 
   return (
     <div className="min-h-screen bg-[#faf9f6] flex flex-col">
