@@ -7,8 +7,7 @@ node_modules
 .next/
 out/
 
-# Database & SQLite files
-prisma/dev.db
+# Database & SQLite files (dev.db committed for instant Vercel deployment)
 prisma/dev.db-journal
 
 # Environment variables
