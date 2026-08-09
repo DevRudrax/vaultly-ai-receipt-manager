@@ -1,0 +1,138 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  avatar       String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  purchases    Purchase[]
+  receipts     Receipt[]
+  notifications Notification[]
+  settings     UserSettings?
+}
+
+model UserSettings {
+  id                      String   @id @default(uuid())
+  userId                  String   @unique
+  user                    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notificationPreferences String   @default("{\"email\":true,\"app\":true,\"warranties\":true,\"returns\":true}")
+  reminderPreferences     String   @default("{\"daysBefore\":[30,14,7]}")
+  currency                String   @default("INR")
+  timezone                String   @default("Asia/Kolkata")
+  language                String   @default("en")
+  updatedAt               DateTime @updatedAt
+}
+
+model Purchase {
+  id            String         @id @default(uuid())
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storeName     String
+  purchaseDate  DateTime
+  totalAmount   Float
+  currency      String         @default("INR")
+  category      String         @default("General")
+  invoiceNumber String?
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  items         PurchaseItem[]
+  receipt       Receipt?
+  warranty      Warranty?
+  returnWindow  ReturnWindow?
+
+  @@index([userId])
+  @@index([storeName])
+  @@index([category])
+  @@index([purchaseDate])
+}
+
+model PurchaseItem {
+  id          String    @id @default(uuid())
+  purchaseId  String
+  purchase    Purchase  @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  productName String
+  brand       String?
+  category    String?
+  quantity    Int       @default(1)
+  unitPrice   Float
+  totalPrice  Float
+
+  @@index([purchaseId])
+  @@index([productName])
+}
+
+model Receipt {
+  id               String   @id @default(uuid())
+  purchaseId       String?  @unique
+  purchase         Purchase? @relation(fields: [purchaseId], references: [id], onDelete: SetNull)
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileUrl          String
+  fileType         String
+  originalFileName String
+  fileSize         Int
+  extractedText    String?
+  processingStatus String   @default("pending") // pending, processing, completed, failed
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Warranty {
+  id               String   @id @default(uuid())
+  purchaseId       String   @unique
+  purchase         Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  itemId           String?
+  durationMonths   Int
+  startDate        DateTime
+  expiryDate       DateTime
+  status           String   @default("active") // active, expiring, expired
+  reminderSettings String?  // JSON array of thresholds in days: [30, 14, 7]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([expiryDate])
+  @@index([status])
+}
+
+model ReturnWindow {
+  id         String   @id @default(uuid())
+  purchaseId String   @unique
+  purchase   Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  itemId     String?
+  startDate  DateTime
+  expiryDate DateTime
+  status     String   @default("active") // active, expiring, expired
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([expiryDate])
+  @@index([status])
+}
+
+model Notification {
+  id           String    @id @default(uuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         String    // warranty_expiring, return_expiring, scan_completed, system
+  title        String
+  message      String
+  read         Boolean   @default(false)
+  scheduledFor DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([userId])
+  @@index([read])
+}
