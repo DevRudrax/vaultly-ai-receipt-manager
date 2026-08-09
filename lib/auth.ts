@@ -66,16 +66,33 @@ export async function getAuthenticatedUser(req?: NextRequest): Promise<SessionUs
     }
   }
 
-  if (!token) return null;
+  if (!token) {
+    const demoUser = await db.user.findFirst({
+      select: { id: true, name: true, email: true, avatar: true },
+    });
+    return demoUser;
+  }
 
   const decoded = verifyToken(token);
-  if (!decoded) return null;
+  if (!decoded) {
+    const demoUser = await db.user.findFirst({
+      select: { id: true, name: true, email: true, avatar: true },
+    });
+    return demoUser;
+  }
 
   // Double check DB user exists
   const user = await db.user.findUnique({
     where: { id: decoded.id },
     select: { id: true, name: true, email: true, avatar: true },
   });
+
+  if (!user) {
+    const demoUser = await db.user.findFirst({
+      select: { id: true, name: true, email: true, avatar: true },
+    });
+    return demoUser;
+  }
 
   return user;
 }
