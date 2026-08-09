@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vaultly - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f4f3f1",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "background": "#faf9f6",
+                        "surface-container": "#efeeeb",
+                        "primary-container": "#4f46e5",
+                        "on-tertiary-fixed": "#1a1b22",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e2dfde",
+                        "on-tertiary-fixed-variant": "#46464e",
+                        "surface": "#faf9f6",
+                        "on-surface": "#1a1c1a",
+                        "on-secondary-fixed-variant": "#474746",
+                        "on-primary-container": "#dad7ff",
+                        "surface-container-high": "#e9e8e5",
+                        "primary-fixed": "#e2dfff",
+                        "surface-dim": "#dbdad7",
+                        "surface-tint": "#4d44e3",
+                        "on-surface-variant": "#464555",
+                        "tertiary-fixed-dim": "#c6c5cf",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2f312f",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-tertiary-container": "#dbdae4",
+                        "on-background": "#1a1c1a",
+                        "secondary": "#5f5e5e",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e3e2e0",
+                        "outline-variant": "#c7c4d8",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "tertiary": "#474750",
+                        "tertiary-fixed": "#e3e1ec",
+                        "on-primary-fixed": "#0f0069",
+                        "on-secondary-container": "#636262",
+                        "primary": "#3525cd",
+                        "tertiary-container": "#5f5f68",
+                        "inverse-primary": "#c3c0ff",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf9f6",
+                        "outline": "#777587"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "unit": "8px",
+                        "stack-sm": "12px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "40px",
+                        "container-padding-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "button": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "button": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-gutter py-unit w-full sticky top-0 z-50 bg-background dark:bg-background flat no shadows">
+<button class="p-2 hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full text-on-surface-variant active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display text-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Vaultly</h1>
+<div class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A close up, highly detailed portrait of a modern professional, well-lit against a clean white studio background. The lighting is soft and flattering, creating a high-end, premium aesthetic consistent with a sophisticated digital product." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhLtmw8mp01tMiHTdwogEA5m7mxnDZryOIIGZM-RRWzflvHB6as3PIuzrKAWuTDbaaaGK5HUEvg3ofPIczkBHuV_XtVgqB7tX25QY40KZECKPcaPDldevbUV6Sbmoy-XLGkluBWMQs6X4HC--WmJlz2HhYcvlEJTRzQzXGTbWkdS1OVbu295noQpE7voj8iT8gKPSAXYZR7n3McqAxYJYI9x2t5EN3qXVvTAUoFFqNOsUV1L2zWXrFwQ"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow px-container-padding-mobile md:px-container-padding-desktop pb-32 max-w-[1200px] mx-auto w-full pt-stack-sm md:pt-stack-md">
+<!-- Welcome Section -->
+<div class="mb-stack-lg">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-2">Good morning, Alex.</h2>
+<p class="font-body-lg text-on-surface-variant">Here's what's happening with your purchases.</p>
+</div>
+<!-- Dashboard Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter md:gap-stack-md mb-stack-lg">
+<!-- Vaultly Insights (AI Assistant) -->
+<div class="col-span-1 md:col-span-12 bg-[#EEF2FF] rounded-xl p-gutter border border-[#c3c0ff] shadow-[0px_4px_20px_rgba(0,0,0,0.02)] flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<div>
+<h3 class="font-button text-primary-container mb-1">VAULTLY INSIGHTS</h3>
+<p class="font-body-md text-primary-container">3 warranties expire this month.</p>
+</div>
+</div>
+<!-- Overview Metrics -->
+<div class="col-span-1 md:col-span-4 bg-surface-container-lowest rounded-xl p-gutter border border-surface-container-highest shadow-[0px_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-caps text-on-surface-variant">ACTIVE WARRANTIES</span>
+<span class="material-symbols-outlined text-[#10b981]">verified</span>
+</div>
+<div class="font-display text-on-surface">12</div>
+</div>
+<div class="col-span-1 md:col-span-4 bg-surface-container-lowest rounded-xl p-gutter border border-surface-container-highest shadow-[0px_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-caps text-on-surface-variant">PURCHASES THIS MONTH</span>
+<span class="material-symbols-outlined text-on-surface-variant">receipt_long</span>
+</div>
+<div class="font-display text-on-surface">₹24,850</div>
+</div>
+<div class="col-span-1 md:col-span-4 bg-surface-container-lowest rounded-xl p-gutter border border-surface-container-highest shadow-[0px_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-caps text-on-surface-variant">TOTAL ITEMS</span>
+<span class="material-symbols-outlined text-on-surface-variant">inventory_2</span>
+</div>
+<div class="font-display text-on-surface">48</div>
+</div>
+<!-- Expiring Soon Prominent Card -->
+<div class="col-span-1 md:col-span-8 bg-surface-container-lowest rounded-xl border border-surface-container-highest shadow-[0px_4px_20px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row">
+<div class="w-full md:w-2/5 h-48 md:h-auto relative bg-surface-container">
+<img class="w-full h-full object-cover absolute inset-0" data-alt="A clean, high-end product shot of Sony WH-1000XM5 headphones resting on a minimalist white desk. The lighting is soft and diffused, emphasizing the premium matte texture of the product. The overall aesthetic is bright, modern, and aligned with a sophisticated technology management interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_OUi6qVvkCTUF-cqvp2cFGKeozqX5d__zIyC8cZ19AEe0lH7_Tkijq0Qf775IWLpaqb1T7KwnBYvYuL_JSn6HfXMz9Q4Dm6HtqQ0JOhxhpOhOuHyG3tSc0nRY7lEvEtr8wGokcL4lzy4547cQz0gjns4TF7pX5_nPhNXTd5SdOZZ4HWhFJOhWP3qUPOfdv18xSaOqewyBrPtok8P3JOxmo1D65fdQYwa-lb3tBStfUYKog1cYcwo1Zg"/>
+<div class="absolute top-3 left-3 bg-[#fef2f2] text-[#991b1b] font-label-caps px-2 py-1 rounded">EXPIRING SOON</div>
+</div>
+<div class="p-gutter flex flex-col justify-between flex-grow">
+<div>
+<h3 class="font-headline-md text-on-surface mb-1">Sony WH-1000XM5</h3>
+<p class="font-body-sm text-on-surface-variant mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-error" style="font-size: 16px;">error</span>
+                            Warranty expires in 12 days
+                        </p>
+</div>
+<div class="flex gap-2 mt-4">
+<button class="flex-1 bg-surface-container-lowest border border-outline-variant text-on-surface font-button py-2 px-4 rounded-lg hover:bg-surface-container transition-colors text-center">View Receipt</button>
+<button class="flex-1 bg-primary-container text-on-primary font-button py-2 px-4 rounded-lg hover:bg-primary transition-colors text-center shadow-sm">Warranty Details</button>
+</div>
+</div>
+</div>
+<!-- Mini Stat for desktop alignment -->
+<div class="hidden md:flex col-span-1 md:col-span-4 bg-surface-container-lowest rounded-xl p-gutter border border-surface-container-highest shadow-[0px_2px_10px_rgba(0,0,0,0.02)] flex-col justify-center items-center text-center">
+<div class="h-16 w-16 rounded-full bg-[#fef2f2] text-[#991b1b] flex items-center justify-center mb-4">
+<span class="material-symbols-outlined" style="font-size: 32px;">warning</span>
+</div>
+<div class="font-display text-on-surface">3</div>
+<span class="font-label-caps text-on-surface-variant mt-2">EXPIRING SOON</span>
+</div>
+</div>
+<!-- Recent Purchases List -->
+<div>
+<div class="flex justify-between items-end mb-stack-sm border-b border-surface-container-highest pb-2">
+<h3 class="font-headline-md text-on-surface">Recent Purchases</h3>
+<button class="font-button text-primary-container hover:text-primary transition-colors">View All</button>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<!-- Receipt Card -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter border border-surface-container-highest hover:shadow-[0px_4px_20px_rgba(0,0,0,0.04)] transition-shadow flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-lg bg-surface-container flex items-center justify-center border border-outline-variant flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">headphones</span>
+</div>
+<div>
+<h4 class="font-button text-on-surface">Apple AirPods Pro</h4>
+<div class="flex items-center gap-2 font-body-sm text-on-surface-variant mt-0.5">
+<span>Apple Store</span>
+<span>•</span>
+<span>Aug 4, 2026</span>
+</div>
+</div>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="font-headline-md text-on-surface">₹24,900</span>
+<span class="font-label-caps text-[#10b981] bg-[#ecfdf5] px-2 py-0.5 rounded mt-1">11 MOS LEFT</span>
+</div>
+</div>
+<!-- Placeholder for visual rhythm -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter border border-surface-container-highest hover:shadow-[0px_4px_20px_rgba(0,0,0,0.04)] transition-shadow flex items-center justify-between group cursor-pointer opacity-70">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-lg bg-surface-container flex items-center justify-center border border-outline-variant flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">laptop_mac</span>
+</div>
+<div>
+<h4 class="font-button text-on-surface">MacBook Air M2</h4>
+<div class="flex items-center gap-2 font-body-sm text-on-surface-variant mt-0.5">
+<span>Amazon</span>
+<span>•</span>
+<span>Jul 12, 2026</span>
+</div>
+</div>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="font-headline-md text-on-surface">₹1,14,900</span>
+<span class="font-label-caps text-[#10b981] bg-[#ecfdf5] px-2 py-0.5 rounded mt-1">10 MOS LEFT</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container-lowest border-t border-outline-variant shadow-sm docked full-width bottom-0 rounded-t-xl">
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-3 py-1.5 active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-caps mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps mt-1">Vault</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200 relative -top-3">
+<div class="bg-primary-container text-on-primary-container rounded-full p-3 shadow-lg">
+<span class="material-symbols-outlined" style="font-size: 28px;">add_circle</span>
+</div>
+<span class="font-label-caps mt-1">Scan</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-caps mt-1">Alerts</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps mt-1">Profile</span>
+</button>
+</nav>
+<!-- Desktop Side Nav (Hidden on Mobile, simplified representation to satisfy layout anchor logic) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-16 bottom-0 w-64 border-r border-surface-container-highest bg-background p-gutter z-40">
+<nav class="flex flex-col gap-2 mt-stack-md">
+<button class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 w-full text-left font-button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+                Home
+            </button>
+<button class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-low rounded-lg px-4 py-3 w-full text-left font-button transition-colors">
+<span class="material-symbols-outlined">inventory_2</span>
+                Vault
+            </button>
+<button class="flex items-center gap-3 text-primary-container bg-surface-container-lowest border border-outline-variant hover:border-primary-container rounded-lg px-4 py-3 w-full text-left font-button transition-colors my-2">
+<span class="material-symbols-outlined">add_circle</span>
+                Scan Document
+            </button>
+<button class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-low rounded-lg px-4 py-3 w-full text-left font-button transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+                Alerts
+            </button>
+</nav>
+</aside>
+<!-- Add padding to main content for desktop side nav -->
+<style>
+        @media (min-width: 768px) {
+            main {
+                padding-left: calc(16rem + 40px); /* 64 (w-64) = 16rem + desktop container padding */
+            }
+        }
+    </style>
+</body></html>
