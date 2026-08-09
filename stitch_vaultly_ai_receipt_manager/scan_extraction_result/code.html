@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vaultly - AI Extraction Result</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f4f3f1",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "background": "#faf9f6",
+                        "surface-container": "#efeeeb",
+                        "primary-container": "#4f46e5",
+                        "on-tertiary-fixed": "#1a1b22",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e2dfde",
+                        "on-tertiary-fixed-variant": "#46464e",
+                        "surface": "#faf9f6",
+                        "on-surface": "#1a1c1a",
+                        "on-secondary-fixed-variant": "#474746",
+                        "on-primary-container": "#dad7ff",
+                        "surface-container-high": "#e9e8e5",
+                        "primary-fixed": "#e2dfff",
+                        "surface-dim": "#dbdad7",
+                        "surface-tint": "#4d44e3",
+                        "on-surface-variant": "#464555",
+                        "tertiary-fixed-dim": "#c6c5cf",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2f312f",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-tertiary-container": "#dbdae4",
+                        "on-background": "#1a1c1a",
+                        "secondary": "#5f5e5e",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e3e2e0",
+                        "outline-variant": "#c7c4d8",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "tertiary": "#474750",
+                        "tertiary-fixed": "#e3e1ec",
+                        "on-primary-fixed": "#0f0069",
+                        "on-secondary-container": "#636262",
+                        "primary": "#3525cd",
+                        "tertiary-container": "#5f5f68",
+                        "inverse-primary": "#c3c0ff",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf9f6",
+                        "outline": "#777587"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "unit": "8px",
+                        "stack-sm": "12px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "40px",
+                        "container-padding-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "button": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "button": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #E5E5E1;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        .input-ghost {
+            background: transparent;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .input-ghost:hover {
+            border-color: #E5E5E1;
+            background: white;
+        }
+        .input-ghost:focus {
+            border-color: #4F46E5;
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 1px #4F46E5;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-gutter py-unit w-full sticky top-0 z-50 bg-background dark:bg-background flat no shadows">
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display text-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Vaultly</h1>
+<button class="hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-200 rounded-full overflow-hidden w-8 h-8 flex items-center justify-center bg-surface-container">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow px-container-padding-mobile md:px-container-padding-desktop max-w-[1200px] mx-auto w-full pb-stack-lg flex flex-col gap-stack-md pt-stack-sm">
+<div class="text-center md:text-left mb-stack-sm">
+<div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary-container text-on-primary-container mb-4 md:hidden">
+<span class="material-symbols-outlined">document_scanner</span>
+</div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-2">We found this purchase.</h2>
+<p class="font-body-md text-on-surface-variant">Review the extracted details before saving to your vault. Tap any field to edit.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-stack-md">
+<!-- Extracted Data Card (Primary Area) -->
+<div class="md:col-span-8 glass-card rounded-xl p-6 relative overflow-hidden">
+<!-- Subtle AI Accent -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-[#EEF2FF] rounded-bl-full opacity-50 -z-10 blur-xl"></div>
+<div class="flex items-center justify-between mb-6 border-b border-surface-variant pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<input aria-label="Store Name" class="input-ghost font-headline-md text-on-surface font-semibold w-full max-w-[200px] px-2 py-1 rounded" type="text" value="Croma"/>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-on-surface-variant">TOTAL</span>
+<input aria-label="Total Amount" class="input-ghost font-headline-md text-primary font-bold w-full max-w-[120px] text-right px-2 py-1 rounded" type="text" value="₹74,999"/>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Date & Products Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="space-y-1">
+<label class="font-label-caps text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                PURCHASE DATE
+                            </label>
+<input aria-label="Purchase Date" class="input-ghost font-body-lg text-on-surface w-full px-2 py-1 rounded" type="text" value="August 4, 2026"/>
+</div>
+<div class="space-y-1 sm:col-span-2">
+<label class="font-label-caps text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+                                PRODUCTS
+                            </label>
+<div class="flex items-center justify-between group rounded p-1 hover:bg-surface-container-lowest transition-colors border border-transparent hover:border-surface-variant">
+<input aria-label="Product Name" class="input-ghost font-body-lg text-on-surface w-full flex-grow px-2 py-1 rounded" type="text" value='Samsung 55" OLED TV'/>
+<input aria-label="Product Price" class="input-ghost font-body-lg text-on-surface w-24 text-right px-2 py-1 rounded" type="text" value="₹74,999"/>
+</div>
+</div>
+</div>
+<!-- Warranty & Return (AI Insights) -->
+<div class="bg-surface-container-low rounded-lg p-4 space-y-4 border border-outline-variant/30">
+<div class="flex items-start gap-4">
+<div class="mt-1">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center mb-1">
+<label class="font-label-caps text-on-surface-variant">WARRANTY</label>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[12px] font-medium bg-[#e6f4ea] text-[#1e8e3e]">Active</span>
+</div>
+<div class="flex items-center gap-2">
+<input aria-label="Warranty Duration" class="input-ghost font-body-md text-on-surface w-20 px-2 py-1 rounded" type="text" value="2 years"/>
+<span class="text-on-surface-variant font-body-sm">(Expires: <input aria-label="Warranty Expiry" class="input-ghost inline-block w-24 px-1 py-0.5 rounded" type="text" value="Aug 4, 2028"/>)</span>
+</div>
+</div>
+</div>
+<div class="h-px w-full bg-surface-variant"></div>
+<div class="flex items-start gap-4">
+<div class="mt-1">
+<span class="material-symbols-outlined text-primary">undo</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center mb-1">
+<label class="font-label-caps text-on-surface-variant">RETURN WINDOW</label>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[12px] font-medium bg-[#EEF2FF] text-[#4F46E5]">14 days left</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-on-surface font-body-md px-2 py-1">Eligible until</span>
+<input aria-label="Return Deadline" class="input-ghost font-body-md text-on-surface w-28 px-2 py-1 rounded font-medium" type="text" value="Aug 18, 2026"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Rail (Actions & Insights) -->
+<div class="md:col-span-4 flex flex-col gap-4">
+<!-- Action Buttons -->
+<div class="glass-card rounded-xl p-6 flex flex-col gap-4">
+<button class="w-full bg-primary-container text-on-primary-container font-button py-3 px-6 rounded-lg shadow-sm hover:opacity-90 transition-opacity active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+                        Save to Vault
+                    </button>
+<button class="w-full bg-surface-container text-on-surface font-button py-3 px-6 rounded-lg hover:bg-surface-container-high transition-colors active:scale-[0.98] flex items-center justify-center gap-2 border border-outline-variant/50">
+<span class="material-symbols-outlined text-[20px]">document_scanner</span>
+                        Scan Again
+                    </button>
+</div>
+<!-- AI Tags -->
+<div class="glass-card rounded-xl p-6">
+<h3 class="font-label-caps text-on-surface-variant mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+                        SMART TAGS
+                    </h3>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] font-body-sm gap-1 border border-[#4F46E5]/20">
+                            Electronics
+                            <button class="hover:text-error transition-colors"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] font-body-sm gap-1 border border-[#4F46E5]/20">
+                            High Value
+                            <button class="hover:text-error transition-colors"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<button class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-body-sm border border-dashed border-outline-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[14px]">add</span> Add Tag
+                        </button>
+</div>
+</div>
+<!-- Original Receipt Thumbnail -->
+<div class="glass-card rounded-xl p-4 flex gap-4 items-center cursor-pointer hover:bg-surface-container-lowest transition-colors group">
+<div class="w-16 h-20 bg-surface-container-low rounded border border-surface-variant flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-outline-variant opacity-50 group-hover:scale-110 transition-transform">receipt_long</span>
+</div>
+<div class="flex-grow">
+<p class="font-button text-on-surface">View Original</p>
+<p class="font-body-sm text-on-surface-variant">IMG_8492.jpg</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container-lowest shadow-sm docked full-width rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant dark:text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant dark:text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-caps text-label-caps mt-1">Vault</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-3 py-1.5 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-label-caps text-label-caps mt-1">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant dark:text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-caps text-label-caps mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant dark:text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
