@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scan a Receipt - Vaultly</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Hanken Grotesk and Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f4f3f1",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "background": "#faf9f6",
+                        "surface-container": "#efeeeb",
+                        "primary-container": "#4f46e5",
+                        "on-tertiary-fixed": "#1a1b22",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e2dfde",
+                        "on-tertiary-fixed-variant": "#46464e",
+                        "surface": "#faf9f6",
+                        "on-surface": "#1a1c1a",
+                        "on-secondary-fixed-variant": "#474746",
+                        "on-primary-container": "#dad7ff",
+                        "surface-container-high": "#e9e8e5",
+                        "primary-fixed": "#e2dfff",
+                        "surface-dim": "#dbdad7",
+                        "surface-tint": "#4d44e3",
+                        "on-surface-variant": "#464555",
+                        "tertiary-fixed-dim": "#c6c5cf",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2f312f",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-tertiary-container": "#dbdae4",
+                        "on-background": "#1a1c1a",
+                        "secondary": "#5f5e5e",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e3e2e0",
+                        "outline-variant": "#c7c4d8",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "tertiary": "#474750",
+                        "tertiary-fixed": "#e3e1ec",
+                        "on-primary-fixed": "#0f0069",
+                        "on-secondary-container": "#636262",
+                        "primary": "#3525cd",
+                        "tertiary-container": "#5f5f68",
+                        "inverse-primary": "#c3c0ff",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf9f6",
+                        "outline": "#777587"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "unit": "8px",
+                        "stack-sm": "12px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "40px",
+                        "container-padding-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "button": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "button": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @keyframes scanline {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .animate-scanline {
+            animation: scanline 2.5s ease-in-out infinite;
+        }
+        
+        /* Hide scrollbar for clean aesthetic */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col mx-auto max-w-md md:max-w-xl md:border-x border-outline-variant/30 shadow-2xl bg-white md:my-8 md:min-h-[850px] md:rounded-[40px] overflow-hidden relative">
+<!-- TopAppBar from JSON -->
+<header class="bg-background w-full sticky top-0 z-50 flex items-center justify-between px-gutter py-unit flat no shadows transition-colors">
+<button aria-label="Menu" class="text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-95 duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<h1 class="font-display text-headline-md font-bold text-on-surface tracking-tight">Vaultly</h1>
+<button aria-label="User profile" class="w-9 h-9 rounded-full bg-surface-container overflow-hidden border border-outline-variant/30 active:scale-95 duration-200 transition-transform">
+<img class="w-full h-full object-cover" data-alt="A small, high-end editorial portrait of a professional for a user profile avatar. The subject is in focus against a clean, softly lit minimalist background. The lighting is bright and modern, conveying a sense of quiet intelligence and effortless organization, aligning with a premium fintech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbr-KwOdLKnPX1RvyOS7MAZf1quNvY1bRL4D--6N3NEIRMG2s8emnZAMgyGAnfNecmebgkiGHCgxSusfK2OS-ZnyqgFTudiy0B2aLhTzZWFUltYZQQSTNSin42G0gEelkPq2zzP-pzZDaBRPmf95TC8LRd2R-X1AJVdvbiLr0eqeFfO0ZTvM23CfFYixI8FzqvTFSssr3_d24sSSmGK7metz33jwSRLHOUCudx0WqbhARugWdZnl8kBg"/>
+</button>
+</header>
+<!-- Main Content: Camera & Upload Options -->
+<main class="flex-1 flex flex-col relative pb-[80px]"> <!-- padding bottom for fixed nav -->
+<!-- Camera Viewfinder Section -->
+<section class="flex-1 relative bg-black mx-2 mt-2 mb-4 rounded-[28px] overflow-hidden shadow-[0px_8px_24px_rgba(0,0,0,0.12)] flex flex-col">
+<!-- Simulated Camera Feed Background -->
+<img class="absolute inset-0 w-full h-full object-cover opacity-85 mix-blend-luminosity" data-alt="A top-down, slightly out-of-focus view of a slightly crumpled white paper receipt resting on a sleek, dark slate table. Soft, natural daylight spills across the surface from the left, highlighting the texture of the paper and creating a moody, high-contrast aesthetic typical of a smartphone camera viewfinder attempting to focus on a document." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEd7WNJWx0rfRb5PAYnBwea1SfpwKivK3a_U15-RVr8HMEWbRBgkxscIMiYAIkZ6xInvaDu8V8uRjEO4FgMpL-XJyu_rJexo_8Z4EeCH6u7_8lox2y1eM_7_x40hiksGvsFZ-V1eJgnRX-fhuWL_UWVw20cYM3ODGtlVvtFynP0p2Z5VccD-4D86r8Hldq6o9PpIyD_tlQtkXbQr_jzTgKLGHkPE0a0yEkET2gyOqumCynS7Wt3E6NDA"/>
+<!-- Vignette/Darkening gradient for UI contrast -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/60 pointer-events-none"></div>
+<!-- Top Viewfinder Controls -->
+<div class="relative z-10 flex justify-between items-center p-5">
+<button class="w-10 h-10 rounded-full bg-inverse-surface/40 backdrop-blur-md text-inverse-on-surface flex items-center justify-center hover:bg-inverse-surface/60 transition-colors active:scale-95 border border-white/10">
+<span class="material-symbols-outlined text-[20px]">flash_auto</span>
+</button>
+<!-- Smart AI Tag Indicator -->
+<div class="bg-inverse-surface/80 backdrop-blur-lg border border-white/10 text-inverse-on-surface font-label-caps text-label-caps px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+<span class="w-2 h-2 rounded-full bg-primary-fixed-dim animate-pulse"></span>
+                    Looking for document...
+                </div>
+<button class="w-10 h-10 rounded-full bg-inverse-surface/40 backdrop-blur-md text-inverse-on-surface flex items-center justify-center hover:bg-inverse-surface/60 transition-colors active:scale-95 border border-white/10">
+<span class="material-symbols-outlined text-[20px]">crop_free</span>
+</button>
+</div>
+<!-- Instruction Text -->
+<div class="relative z-10 text-center mt-2 px-6">
+<p class="font-body-sm text-body-sm text-white/90 drop-shadow-md font-medium tracking-wide">Position the entire receipt inside the frame.</p>
+</div>
+<!-- Glowing Detection Frame -->
+<div class="relative z-10 flex-1 flex items-center justify-center p-8 pointer-events-none">
+<div class="w-full max-w-[280px] h-[75%] border border-primary-fixed-dim/40 rounded-xl relative shadow-[0_0_40px_rgba(195,192,255,0.15)] bg-primary-fixed-dim/5 backdrop-blur-[0.5px]">
+<!-- Reticle Corners -->
+<div class="absolute -top-[2px] -left-[2px] w-8 h-8 border-t-[3px] border-l-[3px] border-primary-fixed rounded-tl-xl shadow-[0_0_10px_rgba(195,192,255,0.5)]"></div>
+<div class="absolute -top-[2px] -right-[2px] w-8 h-8 border-t-[3px] border-r-[3px] border-primary-fixed rounded-tr-xl shadow-[0_0_10px_rgba(195,192,255,0.5)]"></div>
+<div class="absolute -bottom-[2px] -left-[2px] w-8 h-8 border-b-[3px] border-l-[3px] border-primary-fixed rounded-bl-xl shadow-[0_0_10px_rgba(195,192,255,0.5)]"></div>
+<div class="absolute -bottom-[2px] -right-[2px] w-8 h-8 border-b-[3px] border-r-[3px] border-primary-fixed rounded-br-xl shadow-[0_0_10px_rgba(195,192,255,0.5)]"></div>
+<!-- Animated Scan Line -->
+<div class="absolute top-0 left-0 w-full h-[2px] bg-primary-fixed shadow-[0_0_12px_rgba(195,192,255,1)] animate-scanline"></div>
+</div>
+</div>
+<!-- Capture Button Area -->
+<div class="relative z-10 pb-8 pt-4 flex items-center justify-center gap-8">
+<!-- Gallery shortcut (hidden on very small screens, visible as part of main UI) -->
+<button class="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20 active:scale-95 transition-transform">
+<img class="w-full h-full object-cover" data-alt="A tiny thumbnail image showing a neatly organized grid of clean, modern receipt and document scans. The aesthetic is bright, minimalist, and highly organized, reflecting a premium digital vault." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSCrUEKpXA2hSvX3lMnoOkwyYCgajfIHddLY8v2wSm0Kri4-thvo0Sc94Q3ysBKiq7waxmp7jtFwuC_kUvkgL3GR-w7hnIMxltqEREpq17vYH5nHijsq2il3zRmhqUwuGbitCBDlLhAShvnBzpgpEWxf7ezyjdLI2uCfKp0v2IYaJF6DHxCaSf7eXWU22diWY6kMNIZpzd0dlJvHSEaT1dc2Cu17BblLU0P1-rOwVYYq7_SBV9Yf8-Aw"/>
+</button>
+<!-- Main Shutter Button -->
+<button class="w-[84px] h-[84px] rounded-full bg-white/20 border-[4px] border-white backdrop-blur-md flex items-center justify-center active:scale-[0.92] transition-transform duration-200 group">
+<div class="w-[66px] h-[66px] rounded-full bg-white shadow-sm flex items-center justify-center group-active:bg-surface-container-low transition-colors">
+</div>
+</button>
+<!-- Switch camera / mode -->
+<button class="w-12 h-12 rounded-full bg-inverse-surface/40 backdrop-blur-md text-inverse-on-surface flex items-center justify-center border border-white/10 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[24px]">cameraswitch</span>
+</button>
+</div>
+</section>
+<!-- "Upload Instead" Section - Bento Grid Style -->
+<section class="px-gutter pb-stack-md flex flex-col gap-unit shrink-0 bg-background">
+<div class="flex items-center gap-4 mb-2">
+<div class="h-[1px] flex-1 bg-outline-variant/40"></div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Or Import File</h2>
+<div class="h-[1px] flex-1 bg-outline-variant/40"></div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<!-- Gallery Import -->
+<button class="flex flex-col items-center justify-center gap-2.5 py-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/50 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:bg-surface hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 transition-all active:scale-95 group">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors duration-300">
+<span class="material-symbols-outlined text-[20px]">image</span>
+</div>
+<span class="font-button text-[13px] text-on-surface">Photos</span>
+</button>
+<!-- PDF Import -->
+<button class="flex flex-col items-center justify-center gap-2.5 py-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/50 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:bg-surface hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 transition-all active:scale-95 group">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors duration-300">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<span class="font-button text-[13px] text-on-surface">PDF Doc</span>
+</button>
+<!-- Files Import -->
+<button class="flex flex-col items-center justify-center gap-2.5 py-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/50 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:bg-surface hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] hover:-translate-y-0.5 transition-all active:scale-95 group">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors duration-300">
+<span class="material-symbols-outlined text-[20px]">folder_open</span>
+</div>
+<span class="font-button text-[13px] text-on-surface">Files</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar from JSON (Mandatory execution of style_ keys) -->
+<nav class="fixed md:absolute bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container-lowest border-t border-outline-variant shadow-sm docked full-width rounded-t-xl pb-6 md:pb-3 max-w-md md:max-w-xl mx-auto">
+<!-- Home -->
+<button class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200 w-16">
+<span class="material-symbols-outlined mb-1 text-[24px]">home</span>
+<span class="font-label-caps text-[10px]">Home</span>
+</button>
+<!-- Vault -->
+<button class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200 w-16">
+<span class="material-symbols-outlined mb-1 text-[24px]">inventory_2</span>
+<span class="font-label-caps text-[10px]">Vault</span>
+</button>
+<!-- Scan (ACTIVE TAB) - Direct mapping from JSON style_active_navigation -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-3 py-1.5 active:scale-90 transition-transform duration-200 shadow-[0_4px_12px_rgba(79,70,229,0.3)]">
+<span class="material-symbols-outlined mb-0.5 text-[24px]" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-label-caps text-[10px]">Scan</span>
+</button>
+<!-- Alerts -->
+<button class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200 w-16">
+<span class="material-symbols-outlined mb-1 text-[24px]">notifications</span>
+<span class="font-label-caps text-[10px]">Alerts</span>
+</button>
+<!-- Profile -->
+<button class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-200 w-16">
+<span class="material-symbols-outlined mb-1 text-[24px]">person</span>
+<span class="font-label-caps text-[10px]">Profile</span>
+</button>
+</nav>
+</body></html>
