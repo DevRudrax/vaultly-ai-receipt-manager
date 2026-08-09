@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export interface User {
   id: string;
@@ -22,25 +22,29 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const PUBLIC_PATHS = ["/login", "/signup"];
+const DEFAULT_DEMO_USER: User = {
+  id: "demo-user-id",
+  name: "Alex Vance",
+  email: "demo@vaultly.app",
+  avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+};
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(DEFAULT_DEMO_USER);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const pathname = usePathname();
 
   const fetchUser = async () => {
     try {
       const res = await fetch("/api/auth/me");
       if (res.ok) {
         const data = await res.json();
-        setUser(data.user);
-      } else {
-        setUser(null);
+        if (data.user) {
+          setUser(data.user);
+        }
       }
     } catch {
-      setUser(null);
+      setUser(DEFAULT_DEMO_USER);
     } finally {
       setLoading(false);
     }
@@ -49,16 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetchUser();
   }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      if (!user && !PUBLIC_PATHS.includes(pathname)) {
-        router.push("/login");
-      } else if (user && PUBLIC_PATHS.includes(pathname)) {
-        router.push("/dashboard");
-      }
-    }
-  }, [user, loading, pathname, router]);
 
   const login = async (email: string, password: string) => {
     const res = await fetch("/api/auth/login", {
@@ -93,9 +87,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    setUser(null);
-    router.push("/login");
+    setUser(DEFAULT_DEMO_USER);
+    router.push("/dashboard");
   };
 
   return (
