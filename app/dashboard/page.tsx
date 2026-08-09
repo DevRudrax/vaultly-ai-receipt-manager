@@ -16,33 +16,94 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+const INITIAL_DASHBOARD_DATA = {
+  metrics: {
+    totalPurchases: 6,
+    purchasesThisMonth: 2,
+    totalSpending: 244387,
+    monthlySpending: 55499,
+    activeWarranties: 5,
+    expiringWarranties: 1,
+    currency: "INR",
+  },
+  recentPurchases: [
+    {
+      id: "demo-1",
+      storeName: "Croma",
+      purchaseDate: "2026-06-09T00:00:00.000Z",
+      totalAmount: 74999,
+      currency: "INR",
+      category: "Electronics",
+      items: [{ productName: "Samsung 55 OLED 4K Smart TV" }],
+    },
+    {
+      id: "demo-2",
+      storeName: "Apple Store",
+      purchaseDate: "2025-09-09T00:00:00.000Z",
+      totalAmount: 24900,
+      currency: "INR",
+      category: "Audio",
+      items: [{ productName: "Apple AirPods Pro (2nd Gen)" }],
+    },
+    {
+      id: "demo-3",
+      storeName: "Amazon",
+      purchaseDate: "2026-07-09T00:00:00.000Z",
+      totalAmount: 29990,
+      currency: "INR",
+      category: "Audio",
+      items: [{ productName: "Sony WH-1000XM5 Headphones" }],
+    },
+    {
+      id: "demo-4",
+      storeName: "Reliance Digital",
+      purchaseDate: "2026-04-09T00:00:00.000Z",
+      totalAmount: 58999,
+      currency: "INR",
+      category: "Appliances",
+      items: [{ productName: "LG 423L Double Door Refrigerator" }],
+    },
+  ],
+  upcomingDeadlines: [
+    {
+      id: "deadline-1",
+      type: "warranty",
+      title: "Apple AirPods Pro (2nd Gen)",
+      storeName: "Apple Store",
+      daysRemaining: 35,
+      expiryDate: "2026-09-13",
+      status: "expiring",
+    },
+    {
+      id: "deadline-2",
+      type: "return_window",
+      title: "Dyson Purifier Cool Gen1",
+      storeName: "Dyson Flagship",
+      daysRemaining: 12,
+      expiryDate: "2026-08-21",
+      status: "active",
+    },
+  ],
+  aiInsight: "You have 1 warranty expiring in 35 days (Apple AirPods Pro). Review it to ensure coverage.",
+};
+
 export default function DashboardPage() {
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>(INITIAL_DASHBOARD_DATA);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch("/api/dashboard")
       .then((res) => res.json())
-      .then((resData) => setData(resData))
-      .catch((err) => console.warn("Dashboard error:", err))
-      .finally(() => setLoading(false));
+      .then((resData) => {
+        if (resData && resData.metrics) {
+          setData(resData);
+        }
+      })
+      .catch((err) => console.warn("Dashboard fetch error:", err));
   }, []);
 
-  if (loading || !data) {
-    return (
-      <div className="max-w-6xl mx-auto py-6 px-4 space-y-6">
-        <div className="h-10 w-48 bg-white rounded-xl animate-pulse" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="h-32 bg-white rounded-2xl animate-pulse border border-[#e5e5e1]" />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  const metrics = data.metrics || {};
+  const metrics = data.metrics || INITIAL_DASHBOARD_DATA.metrics;
 
   return (
     <div className="max-w-6xl mx-auto py-6 px-4 space-y-6">
