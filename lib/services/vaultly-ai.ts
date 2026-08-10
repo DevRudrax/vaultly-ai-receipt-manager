@@ -48,6 +48,17 @@ export class VaultlyAiService {
 
     const currencySymbol = userSettings?.currency === "INR" ? "₹" : "$";
 
+    // Optional Gemini LLM integration if API key is provided
+    const aiKey = process.env.AI_API_KEY;
+    if (aiKey && aiKey.trim() !== "") {
+      try {
+        const llmResponse = await this.queryWithGemini(query, purchases, currencySymbol, aiKey);
+        if (llmResponse) return llmResponse;
+      } catch (err) {
+        console.warn("Gemini query failed, falling back to Vaultly query engine:", err);
+      }
+    }
+
     // Intent 1: Warranties expiring / expiring this month / active warranties
     if (
       qLower.includes("warranty") ||
@@ -55,48 +66,48 @@ export class VaultlyAiService {
       qLower.includes("expire") ||
       qLower.includes("coverage")
     ) {
-      const activeOrExpiring = purchases.filter((p) => {
-        if (!p.warranty) return false;
-        const wStats = calculateWarrantyStatus(
-          p.warranty.startDate,
-          p.warranty.durationMonths
-        );
-        return wStats.status === "active" || wStats.status === "expiring";
-      });
+      const allWarrantyItems = purchases
+        .filter((p) => p.warranty)
+        .map((p) => {
+          const stats = calculateWarrantyStatus(
+            p.warranty!.startDate,
+            p.warranty!.durationMonths
+          );
+          return { purchase: p, stats };
+        });
 
-      const expiringSoon = activeOrExpiring.filter((p) => {
-        if (!p.warranty) return false;
-        const wStats = calculateWarrantyStatus(
-          p.warranty.startDate,
-          p.warranty.durationMonths
-        );
-        return wStats.daysRemaining <= 30;
-      });
+      const activeOrExpiring = allWarrantyItems.filter(
+        (w) => w.stats.status === "active" || w.stats.status === "expiring"
+      );
 
-      if (qLower.includes("this month") || qLower.includes("soon") || qLower.includes("expiring")) {
+      const expiringSoon = activeOrExpiring.filter(
+        (w) => w.stats.daysRemaining <= 60
+      );
+
+      if (qLower.includes("this month") || qLower.includes("soon") || qLower.includes("expire")) {
         if (expiringSoon.length === 0) {
           return {
-            answer: `Good news! You have no warranties expiring in the next 30 days. You currently have ${activeOrExpiring.length} active warranties safely stored in your vault.`,
-            matchedPurchases: activeOrExpiring.map(this.mapPurchaseSummary),
+            answer: `Good news! You have no warranties expiring in the next 60 days. You currently have **${activeOrExpiring.length} active warranties** safely stored in your vault.`,
+            matchedPurchases: activeOrExpiring.map((w) => this.mapPurchaseSummary(w.purchase)),
           };
         }
 
         const itemsList = expiringSoon
           .map(
-            (p) =>
-              `• **${p.items[0]?.productName || p.storeName}** (${p.storeName}) — expires in ${calculateWarrantyStatus(p.warranty!.startDate, p.warranty!.durationMonths).daysRemaining} days`
+            (w) =>
+              `• **${w.purchase.items[0]?.productName || w.purchase.storeName}** (${w.purchase.storeName}) — expires in **${w.stats.daysRemaining} days** (${w.stats.expiryDate.toLocaleDateString()})`
           )
           .join("\n");
 
         return {
           answer: `You have **${expiringSoon.length} warranty/warranties** expiring soon:\n\n${itemsList}`,
-          matchedPurchases: expiringSoon.map(this.mapPurchaseSummary),
+          matchedPurchases: expiringSoon.map((w) => this.mapPurchaseSummary(w.purchase)),
         };
       }
 
       return {
         answer: `You have **${activeOrExpiring.length} active warranties** tracked in Vaultly.`,
-        matchedPurchases: activeOrExpiring.map(this.mapPurchaseSummary),
+        matchedPurchases: activeOrExpiring.map((w) => this.mapPurchaseSummary(w.purchase)),
       };
     }
 
@@ -117,7 +128,7 @@ export class VaultlyAiService {
       const list = eligibleReturns
         .map((p) => {
           const rStats = calculateReturnWindowStatus(p.returnWindow!.startDate, 14);
-          return `• **${p.items[0]?.productName || p.storeName}** (${p.storeName}) — ${rStats.daysRemaining} days remaining for return`;
+          return `• **${p.items[0]?.productName || p.storeName}** (${p.storeName}) — **${rStats.daysRemaining} days remaining** for return`;
         })
         .join("\n");
 
@@ -164,15 +175,21 @@ export class VaultlyAiService {
     }
 
     // Intent 4: Specific Product / Store lookup ("Find my Samsung TV receipt", "Croma", "AirPods")
+    const stopWords = new Set(["find", "my", "receipt", "show", "me", "the", "get", "for", "a", "an", "where", "is", "purchases", "items"]);
+    const queryTokens = qLower
+      .split(/\s+/)
+      .filter((w) => w.length > 1 && !stopWords.has(w));
+
     const searchMatches = purchases.filter((p) => {
-      const matchStore = p.storeName.toLowerCase().includes(qLower);
-      const matchInvoice = p.invoiceNumber?.toLowerCase().includes(qLower);
-      const matchItems = p.items.some(
-        (i) =>
-          i.productName.toLowerCase().includes(qLower) ||
-          (i.brand && i.brand.toLowerCase().includes(qLower))
+      const storeLower = p.storeName.toLowerCase();
+      const invoiceLower = p.invoiceNumber?.toLowerCase() || "";
+      const itemTexts = p.items.map((i) => `${i.productName} ${i.brand || ""}`.toLowerCase()).join(" ");
+
+      if (queryTokens.length === 0) return storeLower.includes(qLower) || itemTexts.includes(qLower);
+
+      return queryTokens.some(
+        (token) => storeLower.includes(token) || invoiceLower.includes(token) || itemTexts.includes(token)
       );
-      return matchStore || matchInvoice || matchItems;
     });
 
     if (searchMatches.length > 0) {
@@ -195,6 +212,60 @@ export class VaultlyAiService {
       answer: `You currently have **${purchases.length} purchases** in Vaultly with a total tracked spending of **${currencySymbol}${totalVaultSpend.toLocaleString()}**. Try asking "Which warranties expire soon?", "How much did I spend on electronics?", or searching for a specific store like "Croma".`,
       matchedPurchases: purchases.slice(0, 5).map(this.mapPurchaseSummary),
     };
+  }
+
+  private static async queryWithGemini(
+    query: string,
+    purchases: any[],
+    currencySymbol: string,
+    apiKey: string
+  ): Promise<VaultlyAiResponse | null> {
+    const summary = purchases.map((p) => ({
+      id: p.id,
+      store: p.storeName,
+      date: p.purchaseDate,
+      total: `${currencySymbol}${p.totalAmount}`,
+      category: p.category,
+      items: p.items.map((i: any) => i.productName),
+    }));
+
+    const prompt = `You are Vaultly AI, an intelligent receipt and warranty assistant. 
+User Query: "${query}"
+User's Vault Data: ${JSON.stringify(summary)}
+
+Provide a concise, helpful response using Markdown formatting (bolding key items, totals, dates).
+Also return an array of matched purchase IDs if relevant.
+Format your response strictly as JSON:
+{
+  "answer": "Your formatted answer text...",
+  "matchedIds": ["id1", "id2"]
+}`;
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+      }
+    );
+
+    if (res.ok) {
+      const data = await res.json();
+      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (rawText) {
+        const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          const matched = purchases.filter((p) => (parsed.matchedIds || []).includes(p.id));
+          return {
+            answer: parsed.answer,
+            matchedPurchases: matched.map(this.mapPurchaseSummary),
+          };
+        }
+      }
+    }
+    return null;
   }
 
   private static mapPurchaseSummary(p: any) {

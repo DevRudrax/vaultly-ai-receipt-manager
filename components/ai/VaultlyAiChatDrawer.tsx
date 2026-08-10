@@ -42,14 +42,20 @@ export function VaultlyAiChatDrawer({ isOpen, onClose }: VaultlyAiChatDrawerProp
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: q }),
       });
-      const data = await res.json();
+
+      let data: any = {};
+      try {
+        data = await res.json();
+      } catch {
+        data = { error: "Failed to parse response from server." };
+      }
 
       if (res.ok) {
         setMessages((prev) => [
           ...prev,
           {
             sender: "ai",
-            text: data.answer,
+            text: data.answer || "No details available.",
             purchases: data.matchedPurchases,
           },
         ]);
@@ -67,7 +73,7 @@ export function VaultlyAiChatDrawer({ isOpen, onClose }: VaultlyAiChatDrawerProp
         ...prev,
         {
           sender: "ai",
-          text: "Network issue. Please check your connection and try again.",
+          text: "Connection error. Please check your network and try again.",
         },
       ]);
     } finally {
