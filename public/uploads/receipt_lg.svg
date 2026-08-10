@@ -5,8 +5,8 @@
       <text x="200" y="100" font-family="Inter, sans-serif" font-size="14" text-anchor="middle" fill="#5f5e5e">OFFICIAL RECEIPT &amp; TAX INVOICE</text>
       <line x1="40" y1="120" x2="360" y2="120" stroke="#efeeeb" stroke-width="2" stroke-dasharray="6,6"/>
       
-      <text x="40" y="150" font-family="Inter, sans-serif" font-size="12" fill="#777587">DATE: 2026-04-11</text>
-      <text x="40" y="170" font-family="Inter, sans-serif" font-size="12" fill="#777587">INVOICE: INV-99989</text>
+      <text x="40" y="150" font-family="Inter, sans-serif" font-size="12" fill="#777587">DATE: 2026-04-12</text>
+      <text x="40" y="170" font-family="Inter, sans-serif" font-size="12" fill="#777587">INVOICE: INV-94101</text>
       
       <line x1="40" y1="190" x2="360" y2="190" stroke="#c7c4d8" stroke-width="1"/>
       
