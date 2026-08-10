@@ -4,6 +4,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    outputFileTracingIncludes: {
+      '/api/**/*': ['./prisma/dev.db', './public/uploads/**/*'],
+    },
+  },
   webpack: (config) => {
     config.externals.push({
       'utf-8-validate': 'commonjs utf-8-validate',
@@ -14,3 +19,5 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
+
